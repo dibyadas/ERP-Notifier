@@ -1,0 +1,32 @@
+{
+  "name": "CDCnotif",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "jest": "^23.4.2",
+    "jest-react-native": "^18.0.0",
+    "react-test-renderer": "16.3.1"
+  },
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "fetch": "^1.1.0",
+    "react": "16.3.1",
+    "react-native": "~0.55.2",
+    "react-native-local-notifications": "^1.1.0",
+    "react-native-material-textfield": "^0.12.0",
+    "react-native-push-notification": "^3.1.1",
+    "react-native-ui-lib": "^3.3.188",
+    "react-native-vector-icons": "^5.0.0",
+    "react-navigation": "^2.11.2",
+    "react-navigation-material-bottom-tabs": "^0.3.0"
+  }
+}
