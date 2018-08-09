@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, TextInput, Text, Button, Toast} from 'react-native-ui-lib';
-
+import { AsyncStorage } from 'react-native';
 
 class Login extends React.Component {
 	state = {
@@ -15,8 +15,8 @@ class Login extends React.Component {
     this.setState({ securityFlag: !flag });
   }
 
-  _handleLogin(value) {
-    fetch('https://922ed2fe.ngrok.io/sec?user_id=' + value, {
+  _handleSecQues(value) {
+    fetch('https://b95a2e8b.ngrok.io/sec?user_id=' + value, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -34,10 +34,20 @@ class Login extends React.Component {
       ;
   }
 
+  _storeData = async (profile) => {
+	  try {
+	  	console.log(JSON.stringify(profile));
+	    await AsyncStorage.setItem('@Profile', JSON.stringify(profile));
+	  } catch (error) {
+	  	console.log(error);
+	  }
+	}
+
   _handleSubmit() {
-  	// this.setState({showToast: true});
+  	this._storeData({rollno: this.state.rollno})
   	this.props.navigation.navigate('UserPage');
   }
+
 
   render() {
 
@@ -51,7 +61,7 @@ class Login extends React.Component {
 
 	        <TextInput 
 	         text50
-	         onBlur={() => this._handleLogin(rollno)}
+	         onBlur={() => this._handleSecQues(rollno)}
 	         floatingPlaceholder={true}
 	         floatOnFocus={true}
 	         placeholder="Roll Number"

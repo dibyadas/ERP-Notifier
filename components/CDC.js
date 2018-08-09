@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import { FlatList, StyleSheet, Alert, AsyncStorage } from 'react-native';
 import {View, Text, LoaderScreen, BorderRadiuses, ListItem, Colors, ThemeManager} from 'react-native-ui-lib';
-	
+import NoticeModal from './NoticeModal';
+
+import { createStackNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 export default class CDC extends Component {
-
 
 	constructor(props) {
 		super(props);
@@ -15,21 +18,27 @@ export default class CDC extends Component {
 	state = {
 		loading: true,
 		refreshing: false,
-		dataSource: []
+		dataSource: [{'type': 'INTERNSHIP2', 'subject': 'URGENT','company': 'MYCOMP' , 'message':'A test message <h2> this is <br> great! </h2>'}],
 	}
 
+	
 	componentDidMount() {
 
-		this._retrieveData();
-		this.setState({ loading: false});
+		setTimeout(() => {
+			this._retrieveData();
+			this.setState({ loading: false});
+		},100);
+		
 
   	}
 
+  	
   	_storeData = async (noticesToSave) => {
 	  try {
 	  	console.log(JSON.stringify(noticesToSave));
 	    await AsyncStorage.setItem('@Notices', JSON.stringify(noticesToSave));
 	  } catch (error) {
+	  	console.log(error);
 	    Alert.alert('Error saving data!');
 	  }
 	}
@@ -46,12 +55,20 @@ export default class CDC extends Component {
 	   }
 	}
 
+	_showModal(item) {
+		this.props.navigation.navigate('NoticeModal',{
+			'type': item['type'],
+			'subject': item['subject'],
+			'company': item['company'],
+			'message': item['message'],
+			});
+	}
 
 
   	handleRefresh() {
   		this.setState({refreshing: true})
 
-  		fetch('https://922ed2fe.ngrok.io/notices',{
+  		fetch('https://b95a2e8b.ngrok.io/notices',{
   			method: 'GET',
   		})
   		.then(response => response.json())
@@ -63,7 +80,7 @@ export default class CDC extends Component {
   			return this.state.dataSource
   		})
   		.then((noticesToSave) => this._storeData(noticesToSave))
-  		.catch(error => Alert.alert('error') )
+  		.catch(error => console.log(error) )
   		.then(() => this.setState({refreshing: false}))
 
 
@@ -74,32 +91,32 @@ export default class CDC extends Component {
   				<ListItem
   				activeBackgroundColor={Colors.blue60}
 		        activeOpacity={0.3}
-		        onPress={() => Alert.alert(`pressed on contact # `)}
+		        onPress={() => this._showModal(item)}
 		        height={70}
 		        animation="fadeIn"
 		        easing="ease-out-expo"
 		        duration={1000}
 				useNativeDriver
   				>
-  				<ListItem.Part left containerStyle={[styles.border, {padding: 17}]}>
-				          <Text> Notice </Text>
-				</ListItem.Part>
+  				{/*<ListItem.Part left containerStyle={[styles.border, {padding: 17}]}>
+				          <Text> {item['priority']} </Text>
+				</ListItem.Part>*/}
 
-  				<ListItem.Part middle column containerStyle={[styles.border, {paddingRight: 17}]}>
+  				<ListItem.Part middle column containerStyle={[styles.border, {paddingLeft:10, paddingRight: 17}]}>
 
   						  <ListItem.Part containerStyle={{marginBottom: 3}}>
-				            <Text dark10 text70 style={{flex: 1, marginRight: 10}} numberOfLines={1}>{item['type']}</Text>
+				            <Text dark10 text70 style={{flex: 1, marginRight: 10}} numberOfLines={1}> {item['type']} </Text>
 				          </ListItem.Part>
 
 				          <ListItem.Part>
-				            <Text style={{flex: 1, marginRight: 10}} text90 dark40 numberOfLines={1}>{item['priority']}</Text>
+				            <Text style={{flex: 1, marginRight: 10}} text90 dark40 numberOfLines={1}>{item['message']}</Text>
 				          </ListItem.Part>
 
 				</ListItem.Part>
 
 				
 				<ListItem.Part right containerStyle={[styles.border, {paddingRight: 17}]}>
-				       <Text> tso</Text>
+				       <Text> <Icon  size={30} color="#4F8EF7" />  </Text>
 				</ListItem.Part>
 
 				</ListItem>
