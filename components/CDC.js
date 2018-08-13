@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { FlatList, StyleSheet, Alert, AsyncStorage } from 'react-native';
+import { FlatList, StyleSheet, Alert, AsyncStorage ,  NetInfo } from 'react-native';
 import {View, Text, LoaderScreen, BorderRadiuses, ListItem, Colors, ThemeManager} from 'react-native-ui-lib';
 import NoticeModal from './NoticeModal';
 
@@ -18,25 +18,35 @@ export default class CDC extends Component {
 	state = {
 		loading: true,
 		refreshing: false,
-		dataSource: [{'type': 'INTERNSHIP2', 'subject': 'URGENT','company': 'MYCOMP' , 'message':'A test message <h2> this is <br> great! </h2>'}],
+		dataSource: [],
+		page: 2
 	}
 
 	
 	componentDidMount() {
 
 		setTimeout(() => {
-			this._retrieveData();
+			NetInfo.getConnectionInfo().then((connectionInfo) => {
+  				if(connectionInfo.type === 'none'){
+  					this._retrieveData();
+  				}else{
+  					this.handleRefresh();
+  				}
+			});
+			
 			this.setState({ loading: false});
 		},100);
-		
 
   	}
+
+
 
   	
   	_storeData = async (noticesToSave) => {
 	  try {
-	  	console.log(JSON.stringify(noticesToSave));
+	  	// console.log("sdfds"+JSON.stringify(noticesToSave));
 	    await AsyncStorage.setItem('@Notices', JSON.stringify(noticesToSave));
+	    // await AsyncStorage.setItem('@Notices', JSON.stringify(''));
 	  } catch (error) {
 	  	console.log(error);
 	    Alert.alert('Error saving data!');
@@ -57,25 +67,52 @@ export default class CDC extends Component {
 
 	_showModal(item) {
 		this.props.navigation.navigate('NoticeModal',{
-			'type': item['type'],
-			'subject': item['subject'],
-			'company': item['company'],
-			'message': item['message'],
+			'type': 'type',
+			'subject': item[2],
+			'company': item[1],
+			'message': item[0],
 			});
 	}
 
+	_getPage(info) {
+		if(Math.abs(info.distanceFromEnd) < 0.001){
+			this.setState({refreshing: true})
+	  		fetch('https://dibyadas-mftp.herokuapp.com/get_notices?page='+this.state.page,{
+	  			method: 'GET',
+	  		})
+	  		.then(response => response.json())
+	  		.then(responseJson => {
+	  			let temp = this.state.dataSource.concat(responseJson['notices']);
+	  			// console.log(responseJson['notices'][0]);
+	  			this.setState({
+	  				dataSource: temp,
+	  			})
+	  			return this.state.dataSource
+	  		})
+	  		.then((noticesToSave) => this._storeData(noticesToSave))
+	  		.then(() => this.setState({ page: this.state.page + 1, refreshing: false}))
+	  		.catch(error => {
+	  			if(error == 'TypeError: Network request failed'){
+	  				console.log(this.state.page)
+					this.setState({refreshing: false})
+				}
+	  		})
+	  		
+		}
+	}
 
   	handleRefresh() {
+  		// console.log(page);
   		this.setState({refreshing: true})
-
-  		fetch('https://b95a2e8b.ngrok.io/notices',{
+  		fetch('https://dibyadas-mftp.herokuapp.com/get_notices?page=1',{
   			method: 'GET',
   		})
   		.then(response => response.json())
   		.then(responseJson => {
-  			let temp = this.state.dataSource.concat(responseJson);
+  			// let temp = this.state.dataSource.concat(responseJson['notices']);
+  			// console.log(responseJson['notices'][0]);
   			this.setState({
-  				dataSource: temp,
+  				dataSource: responseJson['notices'],
   			})
   			return this.state.dataSource
   		})
@@ -105,18 +142,16 @@ export default class CDC extends Component {
   				<ListItem.Part middle column containerStyle={[styles.border, {paddingLeft:10, paddingRight: 17}]}>
 
   						  <ListItem.Part containerStyle={{marginBottom: 3}}>
-				            <Text dark10 text70 style={{flex: 1, marginRight: 10}} numberOfLines={1}> {item['type']} </Text>
+				            <Text dark10 text60 bold style={{flex: 1, marginRight: 10}} numberOfLines={1}> {item[2]} </Text>
 				          </ListItem.Part>
 
-				          <ListItem.Part>
-				            <Text style={{flex: 1, marginRight: 10}} text90 dark40 numberOfLines={1}>{item['message']}</Text>
-				          </ListItem.Part>
+				          
 
 				</ListItem.Part>
 
 				
 				<ListItem.Part right containerStyle={[styles.border, {paddingRight: 17}]}>
-				       <Text> <Icon  size={30} color="#4F8EF7" />  </Text>
+				       <Text text70 bold > {item[1]} </Text>
 				</ListItem.Part>
 
 				</ListItem>
@@ -134,7 +169,10 @@ export default class CDC extends Component {
 		  		data={this.state.dataSource}
   				renderItem={({item}) => this.renderRow(item)}
   				refreshing={this.state.refreshing}
+  				initialNumToRender={10}
   				onRefresh={this.handleRefresh}
+  				onEndReached={(info) => { this._getPage(info)}}
+  				onEndReachedThreshold={0}
 			/>
 			}
 

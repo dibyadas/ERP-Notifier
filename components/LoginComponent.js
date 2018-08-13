@@ -11,6 +11,7 @@ class Login extends React.Component {
     answer: '',
     sessionToken: '',
     showToast: false,
+    toastMessage: '',
     loading: false,
     loadingMessage: '',
   };
@@ -20,6 +21,7 @@ class Login extends React.Component {
   }
 
   _handleSecQues(value) {
+  	this.setState({loadingMessage:'Fetching security question', loading: false});
   	this.setState({loadingMessage:'Fetching security question', loading: true});
     fetch('https://dibyadas-mftp.herokuapp.com/get_security_ques?user_id=' + value, {
       method: 'GET',
@@ -35,10 +37,16 @@ class Login extends React.Component {
       .then(flag => {
         this._handleSecurity(flag);
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+      		console.log(error);
+      		if(error == 'TypeError: Network request failed'){
+				this.setState({showToast : true, toastMessage:'Enable Network connection', loading: false})
+			}
+      })
       .then(() => {
-      	this.setState({loadingMessage:'', loading: false});
-      });
+      	this.setState({loading: false})
+      })
+      ;
       
   }
 
@@ -73,14 +81,22 @@ class Login extends React.Component {
 	}).then(response => response.json())
 	  .then(responseJson => {
 	  	if(responseJson.login === 'false'){
-	  		this.setState({showToast : true, loading: false})
+	  		this.setState({showToast : true, toastMessage:'Incorrect Login!', loading: false})
 	  	}else if(responseJson.login === 'true'){
 	  		this._storeData({rollno: this.state.rollno})
 	  		this._storeLoginState(true);
 	  		this.setState({ loading: false});
   			this.props.navigation.navigate('UserPage');
 	  	}
-	  });
+	  })
+	  .catch((error) => {
+			console.log(error);
+			if(error == 'TypeError: Network request failed'){
+				this.setState({showToast : true, toastMessage:'Enable Network connection', loading: false})
+			}
+			
+	  })
+	  ;
   	
   }
 
@@ -91,17 +107,10 @@ class Login extends React.Component {
 
 	    return (
 	      <View flex style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-			      {
-						this.state.loading &&
-						<LoaderScreen 
-						color={Colors.blue60}
-			            message={this.state.loadingMessage}
-						overlay
-			 			/>
-				  }
+			      
 	      
 			      <View style={{padding: 10}}>
-
+			      
 			    	<View>
 			        <Text blue10 text30>Welcome</Text>
 			        <Text> </Text>
@@ -156,13 +165,20 @@ class Login extends React.Component {
 
 			        <Toast
 				      visible={this.state.showToast}
-				      message="Incorrect Login"
+				      message={this.state.toastMessage}
 				      allowDismiss
 				      onDismiss={() => this.setState({showToast: false})}
 				      autoDismiss={3000}
 				      centerMessage
 					/>
-			      
+			      {
+						this.state.loading &&
+						<LoaderScreen 
+						color={Colors.blue60}
+			            message={this.state.loadingMessage}
+						overlay
+			 			/>
+				  }
 
 	      </View>
 	    );
