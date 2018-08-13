@@ -7,6 +7,57 @@ import { createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
+class MyListItem extends React.PureComponent {
+
+		_showModal(item) {
+			this.props.navigation.navigate('NoticeModal',{
+				'type': 'type',
+				'subject': item[2],
+				'company': item[1],
+				'message': item[0],
+				});
+		}
+
+		render() {
+
+			let  item  = this.props.item;
+
+	  		return (
+	  				<ListItem
+	  				activeBackgroundColor={Colors.blue60}
+			        activeOpacity={0.3}
+			        onPress={() => this._showModal(item)}
+			        height={70}
+			        animation="fadeIn"
+			        easing="ease-out-expo"
+			        duration={1000}
+					useNativeDriver
+	  				>
+	  				{/*<ListItem.Part left containerStyle={[styles.border, {padding: 17}]}>
+					          <Text> {item['priority']} </Text>
+					</ListItem.Part>*/}
+
+	  				<ListItem.Part middle column containerStyle={[styles.border, {paddingLeft:10, paddingRight: 17}]}>
+
+	  						  <ListItem.Part containerStyle={{marginBottom: 3}}>
+					            <Text dark10 text60 bold style={{flex: 1, marginRight: 10}} numberOfLines={1}> {item[2]} </Text>
+					          </ListItem.Part>
+
+					          
+
+					</ListItem.Part>
+
+					
+					<ListItem.Part right containerStyle={[styles.border, {paddingRight: 17}]}>
+					       <Text text70 bold > {item[1]} </Text>
+					</ListItem.Part>
+
+					</ListItem>
+
+	  			);
+	  	}
+	}
+
 export default class CDC extends Component {
 
 	constructor(props) {
@@ -65,14 +116,7 @@ export default class CDC extends Component {
 	   }
 	}
 
-	_showModal(item) {
-		this.props.navigation.navigate('NoticeModal',{
-			'type': 'type',
-			'subject': item[2],
-			'company': item[1],
-			'message': item[0],
-			});
-	}
+	
 
 	_getPage(info) {
 		if(Math.abs(info.distanceFromEnd) < 0.001){
@@ -123,41 +167,17 @@ export default class CDC extends Component {
 
   	}
 
-  	renderRow(item) {
-  		return (
-  				<ListItem
-  				activeBackgroundColor={Colors.blue60}
-		        activeOpacity={0.3}
-		        onPress={() => this._showModal(item)}
-		        height={70}
-		        animation="fadeIn"
-		        easing="ease-out-expo"
-		        duration={1000}
-				useNativeDriver
-  				>
-  				{/*<ListItem.Part left containerStyle={[styles.border, {padding: 17}]}>
-				          <Text> {item['priority']} </Text>
-				</ListItem.Part>*/}
+  	
 
-  				<ListItem.Part middle column containerStyle={[styles.border, {paddingLeft:10, paddingRight: 17}]}>
+	_renderItem = ({item}) => (
+	    <MyListItem
+	         item={item}
+	         navigation={this.props.navigation}
+	    />
+	  );
 
-  						  <ListItem.Part containerStyle={{marginBottom: 3}}>
-				            <Text dark10 text60 bold style={{flex: 1, marginRight: 10}} numberOfLines={1}> {item[2]} </Text>
-				          </ListItem.Part>
 
-				          
-
-				</ListItem.Part>
-
-				
-				<ListItem.Part right containerStyle={[styles.border, {paddingRight: 17}]}>
-				       <Text text70 bold > {item[1]} </Text>
-				</ListItem.Part>
-
-				</ListItem>
-
-  			);
-  	}
+  	
 
 	render() {
 		return (
@@ -167,7 +187,7 @@ export default class CDC extends Component {
 			{ !this.state.loading &&
 			 <FlatList
 		  		data={this.state.dataSource}
-  				renderItem={({item}) => this.renderRow(item)}
+  				renderItem={this._renderItem}
   				refreshing={this.state.refreshing}
   				initialNumToRender={10}
   				onRefresh={this.handleRefresh}
