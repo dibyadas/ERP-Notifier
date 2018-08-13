@@ -2,9 +2,9 @@ import React from 'react';
 import {View, TextInput, Text, Button} from 'react-native-ui-lib';
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
-
 import Login from './components/LoginComponent';
 import Tabs from './components/UserPage';
+import AuthLoad from './components/AuthLoad';
 
 const AppStack = createStackNavigator({ UserPage: Tabs }, {
     headerMode: 'none',
@@ -13,8 +13,10 @@ const AppStack = createStackNavigator({ UserPage: Tabs }, {
     },
   });
 
-const AuthStack = createStackNavigator({ login: Login}, {
+const AuthStack = createSwitchNavigator({  AuthLoad: AuthLoad  ,login: Login}, {
     headerMode: 'none',
+    initialRouteName: 'AuthLoad',
+    backBehavior: null,
     navigationOptions: {
       headerVisible: false, 
     },
@@ -27,6 +29,7 @@ const RootStack = createSwitchNavigator(
   },
   {
     initialRouteName: 'Auth',
+    backBehavior: null,
   }
 );
 
@@ -37,7 +40,7 @@ export default class App extends React.Component {
  
   render() {
     return (
-
+      
       <RootStack />
 
       );

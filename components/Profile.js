@@ -27,6 +27,21 @@ export default class Profile extends Component {
 	   }
 	}
 
+	_storeLoginState = async (state) => {
+	  	try{
+	  		await AsyncStorage.setItem('@LoginState', JSON.stringify(state));
+	  	} catch (error) {
+	  		console.log(error);
+	  	}
+
+	  }
+
+	_logout() {
+		this.setState({profile: ''})
+		this._storeLoginState(false);
+		this.props.navigation.navigate('login');
+	}
+
 	render() {
 		return(
 
@@ -37,7 +52,7 @@ export default class Profile extends Component {
 			<Button
 	           text60 
 	           white 
-	           onPress={() => this._retrieveProfile()}
+	           onPress={() => this._logout()}
 	           background-orange50 
 	           label="Log Out"/>
 
