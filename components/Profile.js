@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import { AsyncStorage } from 'react-native';
 import { View, Text, Button} from 'react-native-ui-lib';
+import PushNotification from 'react-native-push-notification';
 
 export default class Profile extends Component {
 
@@ -42,6 +43,13 @@ export default class Profile extends Component {
 		this.props.navigation.navigate('login');
 	}
 
+	notify(){
+		PushNotification.localNotificationSchedule({
+		  message: "My Notification Message", // (required)
+		  date: new Date(Date.now() + (5 * 1000)) // in 60 secs
+		});
+	}
+
 	render() {
 		return(
 
@@ -55,6 +63,8 @@ export default class Profile extends Component {
 	           onPress={() => this._logout()}
 	           background-orange50 
 	           label="Log Out"/>
+
+	        {/*<Button onPress={() => this.notify()} label="click" />*/}
 
 			 </View>
 

@@ -7,8 +7,10 @@ import NoticeModal from './NoticeModal';
 
 export default CDCNoticeStack = createStackNavigator({ 'CDC': CDC, 'NoticeModal': NoticeModal },{
 	initialRouteName: 'CDC',
-    headerMode: 'none',
+    // headerMode: 'none',
     navigationOptions: {
-      headerVisible: false, 
+      // headerVisible: false, 
+      // header: null,
+      title: 'Notices'
     },
   });

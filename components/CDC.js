@@ -32,6 +32,7 @@ class MyListItem extends React.PureComponent {
 			        easing="ease-out-expo"
 			        duration={1000}
 					useNativeDriver
+					containerStyle={[styles.border]}
 	  				>
 	  				{/*<ListItem.Part left containerStyle={[styles.border, {padding: 17}]}>
 					          <Text> {item['priority']} </Text>
@@ -48,8 +49,8 @@ class MyListItem extends React.PureComponent {
 					</ListItem.Part>
 
 					
-					<ListItem.Part right containerStyle={[styles.border, {paddingRight: 17}]}>
-					       <Text text70 bold > {item[1]} </Text>
+					<ListItem.Part right containerStyle={[styles.border,{paddingRight: 17}]}>
+					       <Text text70 bold > {item[1].slice(0,30)} </Text>
 					</ListItem.Part>
 
 					</ListItem>

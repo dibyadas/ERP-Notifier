@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
 import {View, TextInput, Text, Button, Toast, LoaderScreen, Colors} from 'react-native-ui-lib';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class Login extends React.Component {
+
+		constructor(props) {
+			    super(props);
+			    this.changePwdType = this.changePwdType.bind(this);
+		  }
+
+
 	state = {
     rollno: '',
     password: '',
@@ -14,7 +22,24 @@ class Login extends React.Component {
     toastMessage: '',
     loading: false,
     loadingMessage: '',
+    secure: true,
+    icEye: 'visibility-off',
   };
+
+  changePwdType() {
+  	if( this.state.secure )
+	{
+		this.setState({
+			icEye: 'visibility',
+			secure: false
+  		});
+	}else if(!this.state.secure){
+		this.setState({
+			icEye: 'visibility-off',
+			secure: true
+  		});
+	}
+  }
 
   _handleSecurity(flag) {
     this.setState({ securityFlag: !flag });
@@ -135,9 +160,15 @@ class Login extends React.Component {
 			         floatOnFocus={true}
 			         placeholder="Password" 
 			         onChangeText={password => this.setState({ password })}
-			         secureTextEntry 
+			         secureTextEntry={this.state.secure}
 			         dark10/>
+			         <Icon style={{position: 'absolute', top:33, right:10}}
+					          name={this.state.icEye}
+					          size={25}
+					          onPress={this.changePwdType}
+					    />
 			         </View>
+
 
 
 		      		{securityFlag && (
@@ -148,7 +179,7 @@ class Login extends React.Component {
 			           floatOnFocus={true}
 			           placeholder={secQues}
 			           onChangeText={answer => this.setState({ answer })}
-			           secureTextEntry 
+			           secureTextEntry={this.state.secure}
 			           dark10/>
 			        	</View>   
 			        )}

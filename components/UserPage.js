@@ -25,11 +25,12 @@ export default Tabs = createMaterialTopTabNavigator({
     tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor: 'black',
-      inactiveTintColor: '#82807f',
+      inactiveTintColor: 'white',
       // Android's default showing of icons is false whereas iOS is true
       showIcon: false,
       style: {
-      	backgroundColor: '#fcab88',
+      	backgroundColor: '#F7A997',
+        borderRadius: 10,
       }
     },
   },
