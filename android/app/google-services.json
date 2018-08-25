@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1000655289779",
+    "firebase_url": "https://cdc-push-6b659.firebaseio.com",
+    "project_id": "cdc-push-6b659",
+    "storage_bucket": "cdc-push-6b659.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000655289779:android:949196e2a459bd71",
+        "android_client_info": {
+          "package_name": "com.cdcnotif"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000655289779-la7gl4pqnlke9t2p4n035bnos8asapd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS1anrYNGWxv_THsG1F-Q0hXMrdwPMzwg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

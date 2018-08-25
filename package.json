@@ -21,6 +21,7 @@
     "fetch": "^1.1.0",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-firebase": "^4.3.8",
     "react-native-htmlview": "^0.13.0",
     "react-native-local-notifications": "^1.1.0",
     "react-native-material-textfield": "^0.12.0",
