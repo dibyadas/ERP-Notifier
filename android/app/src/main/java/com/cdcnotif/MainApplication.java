@@ -2,10 +2,11 @@ package com.cdcnotif;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.PDFViewPackage;
+import com.ocetnik.timer.BackgroundTimerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.github.wumke.RNLocalNotifications.RNLocalNotificationsPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -28,10 +29,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PDFViewPackage(),
+            new BackgroundTimerPackage(),
             new RNFirebasePackage(),
             new RNFirebaseMessagingPackage(),
             new VectorIconsPackage(),
-            new RNLocalNotificationsPackage(),
             new ReactNativePushNotificationPackage()
       );
     }

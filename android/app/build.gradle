@@ -152,14 +152,15 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-view-pdf')
+    compile project(':react-native-background-timer')
     compile project(':react-native-firebase')
     compile "com.google.firebase:firebase-messaging:17.1.0"
     compile project(':react-native-vector-icons')
-    compile project(':react-native-local-notifications')
     compile project(':react-native-push-notification')
     // compile project(':react-native-local-notifications')
     // compile project(':react-native-vector-icons')
-    compile 'com.google.android.gms:play-services:3.2.+'
+    compile 'com.google.android.gms:play-services:12.0.1'
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:26.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
@@ -174,3 +175,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
+apply plugin: 'com.google.gms.google-services'
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

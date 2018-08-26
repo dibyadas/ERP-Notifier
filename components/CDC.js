@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { FlatList, StyleSheet, Alert, AsyncStorage ,  NetInfo } from 'react-native';
+import { FlatList, StyleSheet, Alert, AsyncStorage , StatusBar,  NetInfo } from 'react-native';
 import {View, Text, LoaderScreen, BorderRadiuses, ListItem, Colors, ThemeManager} from 'react-native-ui-lib';
 import NoticeModal from './NoticeModal';
 
@@ -10,11 +10,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 class MyListItem extends React.PureComponent {
 
 		_showModal(item) {
+			// console.log(item);
 			this.props.navigation.navigate('NoticeModal',{
 				'type': 'type',
 				'subject': item[2],
 				'company': item[1],
 				'message': item[0],
+				'attachment_url': item[4],
+				'attachment_raw': item[5],
 				});
 		}
 
@@ -78,14 +81,7 @@ export default class CDC extends Component {
 	componentDidMount() {
 
 		setTimeout(() => {
-			NetInfo.getConnectionInfo().then((connectionInfo) => {
-  				if(connectionInfo.type === 'none'){
-  					this._retrieveData();
-  				}else{
-  					this.handleRefresh();
-  				}
-			});
-			
+			this.handleRefresh();
 			this.setState({ loading: false});
 		},100);
 
@@ -97,6 +93,7 @@ export default class CDC extends Component {
   	_storeData = async (noticesToSave) => {
 	  try {
 	  	// console.log("sdfds"+JSON.stringify(noticesToSave));
+	  	// console.log(noticesToSave[0][3]);
 	    await AsyncStorage.setItem('@Notices', JSON.stringify(noticesToSave));
 	    // await AsyncStorage.setItem('@Notices', JSON.stringify(''));
 	  } catch (error) {
@@ -117,7 +114,16 @@ export default class CDC extends Component {
 	   }
 	}
 
-	
+	saveLatest = async (noticesToSave) => {
+		try {
+
+	    await AsyncStorage.setItem('@Latest', JSON.stringify(noticesToSave[0][3]));
+
+	  } catch (error) {
+	  	console.log(error);
+	    console.log('Error saving data!');
+	  }
+	}
 
 	_getPage(info) {
 		if(Math.abs(info.distanceFromEnd) < 0.001){
@@ -141,7 +147,7 @@ export default class CDC extends Component {
 	  				console.log(this.state.page)
 					this.setState({refreshing: false})
 				}
-	  		})
+	  		});
 	  		
 		}
 	}
@@ -159,8 +165,13 @@ export default class CDC extends Component {
   			this.setState({
   				dataSource: responseJson['notices'],
   			})
-  			return this.state.dataSource
+  			return responseJson['notices']
   		})
+  		.then((noticesToSave) => {
+  			console.log(noticesToSave[0][3])
+  			this.saveLatest(noticesToSave);
+  			return noticesToSave;
+  		 })
   		.then((noticesToSave) => this._storeData(noticesToSave))
   		.catch(error => console.log(error) )
   		.then(() => this.setState({refreshing: false}))
@@ -185,6 +196,7 @@ export default class CDC extends Component {
 
 			<View flex>
 
+			<StatusBar backgroundColor='#ef8067' barStyle='light-content' />
 			{ !this.state.loading &&
 			 <FlatList
 		  		data={this.state.dataSource}

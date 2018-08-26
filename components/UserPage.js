@@ -24,12 +24,12 @@ export default Tabs = createMaterialTopTabNavigator({
     // Android's default option displays tabBars on top, but iOS is bottom
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: 'black',
-      inactiveTintColor: 'white',
+      activeTintColor: 'white',
+      inactiveTintColor: '#3b4044',
       // Android's default showing of icons is false whereas iOS is true
       showIcon: false,
       style: {
-      	backgroundColor: '#F7A997',
+      	backgroundColor: '#ef8067',
         borderRadius: 10,
       }
     },

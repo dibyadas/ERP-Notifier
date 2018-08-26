@@ -4495,6 +4495,10 @@ react-native-animatable@^1.1.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-background-timer@2.1.0-alpha.5:
+  version "2.1.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/react-native-background-timer/-/react-native-background-timer-2.1.0-alpha.5.tgz#3222abab82b8b416595f670523f5e869aa21fe8c"
+
 react-native-blur@^3.1.1:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.2.2.tgz#5bfb50638d148982c9560436554ed01d77d6d07d"
@@ -4535,10 +4539,6 @@ react-native-htmlview@^0.13.0:
 react-native-interactable@latest:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/react-native-interactable/-/react-native-interactable-0.1.10.tgz#65b9a68f6a84ba1c0e2ad5478b1f22ffb29c0526"
-
-react-native-local-notifications@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-local-notifications/-/react-native-local-notifications-1.1.0.tgz#78f6f049e4a5b93f1551478591327d800a90cc3d"
 
 react-native-material-textfield@^0.12.0:
   version "0.12.0"
@@ -4605,6 +4605,10 @@ react-native-vector-icons@^5.0.0:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-view-pdf@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-view-pdf/-/react-native-view-pdf-0.3.2.tgz#570076aaea4ff34fae8211806bc892c3de847a36"
 
 react-native@~0.55.2:
   version "0.55.4"
