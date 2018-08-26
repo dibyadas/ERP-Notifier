@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, LoaderScreen, Colors} from 'react-native-ui-lib';
+import {View, Text } from 'react-native-ui-lib';
 
 export default class Convocation extends Component {
 

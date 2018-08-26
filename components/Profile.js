@@ -1,12 +1,13 @@
 import React, { Component} from 'react';
 import { AsyncStorage } from 'react-native';
-import { View, Text, Button} from 'react-native-ui-lib';
+import { View, Text, Button, Modal} from 'react-native-ui-lib';
 import PushNotification from 'react-native-push-notification';
 
 export default class Profile extends Component {
 
 	state = {
 		profile: '',
+		modalVisible: false,
 	}
 
 	componentDidMount() {
@@ -50,6 +51,10 @@ export default class Profile extends Component {
 		});
 	}
 
+	showModal(){
+		this.setState({modalVisible: true})
+	}
+
 	render() {
 		return(
 
@@ -57,6 +62,7 @@ export default class Profile extends Component {
 			<Text text40> Logged in as - 
 			</Text>
 			<Text text40 center> {this.state.profile}  </Text>
+			<View>
 			<Button
 	           text60 
 	           white 
@@ -64,8 +70,35 @@ export default class Profile extends Component {
 	           background-orange50 
 	           label="Log Out"/>
 
-	        {/*<Button onPress={() => this.notify()} label="click" />*/}
-
+	           <Modal
+		          animationType="fade"
+		          transparent={false}
+		          visible={this.state.modalVisible}
+		          onRequestClose={() => {
+		            this.setState({modalVisible: false})
+	          }}> 
+		          <View flex center style={{padding: 40}}>
+			          <Text>
+			          	This app has been developed by Dibya Prakash Das.
+			          	</Text>
+			          	<Text>
+			          	It's made using React Native and supports anything above Android 7 very well. 
+			          	</Text>
+			          	<Text>
+			          	For any feedback and complaints, please drop me a mail @ dibyadas998@gmail.com or message me on Facebook. Thank you!
+			          	</Text>
+			          	<Text>
+			          	For the developers out there, if you find bugs, please report it to github_repo.
+			          	</Text>
+			          	<Text>
+			          	PRs are more than welcome! ;)
+			          </Text>
+		          </View>
+	          </Modal>
+	          <View style={{padding: 10}}>
+	          </View>
+	        <Button onPress={() => this.showModal()} label="About the app" />
+	        </View>
 			 </View>
 
 			);
