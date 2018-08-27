@@ -97,7 +97,7 @@ export default class Profile extends Component {
 	          </Modal>
 	          <View style={{padding: 10}}>
 	          </View>
-	        <Button onPress={() => this.showModal()} label="About the app" />
+	        <Button background-blue50 onPress={() => this.showModal()} label="About the app" />
 	        </View>
 			 </View>
 
