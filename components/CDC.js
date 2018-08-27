@@ -102,11 +102,14 @@ export default class CDC extends Component {
 	  }
 	}
 
-	_retrieveData = async () => {
+	_retrieveData = async (any_func) => {
 	  try {
 	    const value = await AsyncStorage.getItem('@Notices');
 	    if (value !== null) {
 	      this.setState({ dataSource: JSON.parse(value)});
+	      if(any_func){
+	      	any_func()
+	      }
 	    }
 	   } catch (error) {
 	     Alert.alert('Error fetching saved data!');
@@ -173,7 +176,13 @@ export default class CDC extends Component {
   			return noticesToSave;
   		 })
   		.then((noticesToSave) => this._storeData(noticesToSave))
-  		.catch(error => console.log(error) )
+  		.catch(error => {
+  			if(error == 'TypeError: Network request failed'){
+				// console.log(this.state.page)
+				this._retrieveData( () => this.setState({refreshing: false}) );
+				
+			}
+  		})
   		.then(() => this.setState({refreshing: false}))
 
 
