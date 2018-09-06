@@ -15,7 +15,7 @@ export default CDCNoticeStack = createStackNavigator({ 'CDC': CDC, 'NoticeModal'
       title: 'Notices',
       headerTintColor: "white",
       headerStyle: {
-         backgroundColor:"#f47b5f"
+         backgroundColor:"#9c0000"
        }
     },
   });

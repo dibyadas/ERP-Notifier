@@ -5,6 +5,12 @@ import HTMLView from 'react-native-htmlview';
 
 export default class NoticeModal extends Component{
 
+	renderNode(node, index, siblings, parent, defaultRenderer) {
+		if (node.name == 'br') {
+		    return null;
+		  }
+	}
+
 	render() {
 
 
@@ -18,7 +24,7 @@ export default class NoticeModal extends Component{
 		console.log(message);
 
 		return(
-			<View style={{backgroundColor: 'white',display: 'flex', padding: 10}} >
+			<View style={{backgroundColor: 'white', padding: 10}} >
 				<View style={{ paddingTop: 10, paddingBottom : 30 }}>
 				<Text text50 dark10 style={{fontWeight: 'bold', padding: 5}}> Subject: <Text style={{fontWeight: 'normal'}}> {subject} </Text> </Text>
 				<Text text50 dark10 style={{fontWeight: 'bold', padding: 5}}> Company: <Text style={{fontWeight: 'normal'}}> {company} </Text> </Text>
@@ -40,16 +46,34 @@ export default class NoticeModal extends Component{
 
 				</View>
 				
-				<ScrollView style={{ marginBottom: 150 }}>
+				<View>
+				
+				<ScrollView style={{marginBottom: 300}}>
 							 <HTMLView
 						        value={message}
-						        textComponentProps={{color: 'black', selectable: true}}
+						        textComponentProps={{style: {color: 'black',fontWeight: '300', textShadowColor: 'bisque'}, selectable: true}}
 						        nodeComponentProps={{selectable: true}}
+						        stylesheet={styles}
+						        renderNode={this.renderNode}
 						      />
 				</ScrollView>
+				
+				</View>
 			
 			</View>
 			);
 	}
 
 }
+
+const styles = StyleSheet.create({
+  b: {
+    fontWeight: 'bold',
+  },
+   container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    backgroundColor: '#fff',
+  }
+});

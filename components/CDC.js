@@ -205,7 +205,7 @@ export default class CDC extends Component {
 
 			<View flex>
 
-			<StatusBar backgroundColor='#ef8067' barStyle='light-content' />
+			<StatusBar backgroundColor='#a80303' barStyle='light-content' />
 			{ !this.state.loading &&
 			 <FlatList
 		  		data={this.state.dataSource}

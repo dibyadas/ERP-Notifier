@@ -7,7 +7,7 @@ export default class PDF extends Component {
 	static navigationOptions = {
 		title: 'Attachment',
 		headerStyle: {
-         backgroundColor:"#8fc5f4"
+         backgroundColor:"#9c0000"
        }
 	}
 
@@ -23,7 +23,7 @@ export default class PDF extends Component {
 			return (
 
 			<View style={{ flex: 1 }}>
-			<StatusBar backgroundColor='#8fc5f4' barStyle='light-content' />
+			<StatusBar backgroundColor='#a80303' barStyle='light-content' />
 			  <PDFView
 			    style={{ flex: 1 }}
 			    onError={(error) => Alert.alert('Bad PDF file - ',attachment_url)}
